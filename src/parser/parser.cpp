@@ -16,6 +16,11 @@ const Token& Parser::advance() {
     return tokens[pos++];
 }
 
+bool Parser::is_at_end() const {
+    return peek().type == TokenType::End;
+}
+
+
 bool Parser::match(TokenType type) {
     if (peek().type == type) {
         advance();
@@ -103,7 +108,7 @@ std::unique_ptr<Expr> Parser::parse_factor() {
 
     if (match(TokenType::LeftP)) {
         auto expr = parse_expr();
-        
+
         if (!match(TokenType::RightP)) {
             throw std::runtime_error("Expected ')'");
         }

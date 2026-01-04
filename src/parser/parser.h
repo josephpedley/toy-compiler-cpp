@@ -14,6 +14,8 @@ public:
 
     // Parse a single statement
     std::unique_ptr<Stmt> parse_statement();
+    bool is_at_end() const;
+
 
 private:
     // Expression parsing 

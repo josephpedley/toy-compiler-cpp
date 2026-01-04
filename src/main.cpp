@@ -1,37 +1,65 @@
 #include <iostream>
-#include "lexer/lexer.h"
+#include <vector>
+#include <string>
 
-const char* token_type_to_string(TokenType type);
+#include "lexer/lexer.h"
+#include "lexer/token.h"
+#include "parser/parser.h"
+#include "runtime/environment.h"
+#include "runtime/executor.h"
 
 int main() {
-    Lexer lexer("x = 3 + 4 * (2-1)\nprint x");
+    // ======================
+    // Source program
+    // ======================
+    std::string source =
+        "x = 3 + 4 * (2 - 1)\n"
+        "print x";
+
+    std::cout << "===== SOURCE =====\n";
+    std::cout << source << "\n\n";
+
+    // ======================
+    // LEXER
+    // ======================
+    std::cout << "===== TOKENS =====\n";
+
+    Lexer lexer(source);
+    std::vector<Token> tokens;
 
     while (true) {
-    Token t = lexer.next_token();
-    std::cout << token_type_to_string(t.type)
-              << " : '" << t.lexeme << "'\n";
+        Token t = lexer.next_token();
+        tokens.push_back(t);
 
-    if (t.type == TokenType::End)
-        break;
-}
+        std::cout
+            << token_type_to_string(t.type)
+            << " : '" << t.lexeme << "'\n";
 
-}
-const char* token_type_to_string(TokenType type) {
-    switch (type) {
-        case TokenType::Number:     return "Number";
-        case TokenType::Identifier: return "Identifier";
-        case TokenType::Plus:       return "Plus";
-        case TokenType::Minus:      return "Minus";
-        case TokenType::Star:       return "Star";
-        case TokenType::Slash:      return "Slash";
-        case TokenType::Equals:     return "Equals";
-        case TokenType::LeftP:     return "LParen";
-        case TokenType::RightP:     return "RParen";
-        case TokenType::Print:      return "Print";
-        case TokenType::End:        return "End";
-        default:                    return "Unknown";
+        if (t.type == TokenType::End)
+            break;
     }
+
+    // ======================
+    // PARSER + EXECUTION
+    // ======================
+    std::cout << "\n===== EXECUTION =====\n";
+
+    try {
+        Parser parser(tokens);
+        Environment env;
+        Executor executor(env);
+
+        // Parse + execute until End token
+        while (!parser.is_at_end()) {
+            auto stmt = parser.parse_statement();
+            executor.execute(stmt.get());
+            }
+
+
+    } catch (const std::exception& e) {
+        std::cerr << "Error: " << e.what() << "\n";
+        return 1;
+    }
+
+    return 0;
 }
-
-
-
