@@ -26,7 +26,9 @@ This project was built as a learning exercise to deeply understand:
 - how parsers build structure
 - how Abstract Syntax Trees (ASTs) represent programs
 - how interpreters traverse trees
-- ho
+- how real C++ ownership and lifetime rules apply in practice
+
+It is **not** intended to be production-ready, but to demonstrate **systems-level thinking in C++**.
 
 
 Example program:
@@ -68,5 +70,19 @@ This project was built specifically to practice and understand:
 - No LLVM or bytecode backend
 - No garbage collection
 - No copyable AST nodes
+
+## How to read this project
+
+This repository is intended primarily as a **code reading and learning project**.
+
+The core logic lives in:
+- `lexer/` — tokenisation
+- `parser/` — recursive-descent parsing and AST construction
+- `runtime/` — tree-walking execution
+
+Each component is intentionally small and self-contained to make the control flow and ownership model easy to follow.
+
+The project can be compiled with any C++17-compatible compiler.
+
 
 
