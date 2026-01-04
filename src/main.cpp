@@ -9,9 +9,7 @@
 #include "runtime/executor.h"
 
 int main() {
-    // ======================
-    // Source program
-    // ======================
+    // Source program here
     std::string source =
         "x = 3 + 4 * (2 - 1)\n"
         "print x";
@@ -19,9 +17,7 @@ int main() {
     std::cout << "===== SOURCE =====\n";
     std::cout << source << "\n\n";
 
-    // ======================
     // LEXER
-    // ======================
     std::cout << "===== TOKENS =====\n";
 
     Lexer lexer(source);
@@ -38,10 +34,7 @@ int main() {
         if (t.type == TokenType::End)
             break;
     }
-
-    // ======================
     // PARSER + EXECUTION
-    // ======================
     std::cout << "\n===== EXECUTION =====\n";
 
     try {

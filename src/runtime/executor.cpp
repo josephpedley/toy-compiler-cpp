@@ -34,7 +34,6 @@ int Executor::eval_expr(const Expr* expr) {
     throw std::runtime_error("Unknown expression");
 }
 // Statement execution
-
 void Executor::execute(const Stmt* stmt) {
     // Assignment
     if (auto a = dynamic_cast<const AssignmentStmt*>(stmt)) {

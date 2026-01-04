@@ -74,7 +74,7 @@ Token Lexer::lex_number(){
 
 Token Lexer::lex_identifier() {
     size_t start = position;
-    while(!is_at_end() && std::isalnum(peek()) || peek() == '_'){
+    while(!is_at_end() && (std::isalnum(peek()) || peek() == '_')){
         advance();
     }
     std::string text(source.substr(start, position - start));
@@ -90,4 +90,20 @@ Token Lexer::lex_identifier() {
         text
     };
     
+}
+const char* token_type_to_string(TokenType type) {
+    switch (type) {
+        case TokenType::Identifier: return "Identifier";
+        case TokenType::Number:     return "Number";
+        case TokenType::Plus:       return "Plus";
+        case TokenType::Minus:      return "Minus";
+        case TokenType::Star:       return "Star";
+        case TokenType::Slash:      return "Slash";
+        case TokenType::Equals:     return "Equals";
+        case TokenType::LeftP:     return "LeftP";
+        case TokenType::RightP:     return "RightP";
+        case TokenType::Print:      return "Print";
+        case TokenType::End:        return "End";
+        default:                    return "Unknown";
+    }
 }

@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 
+
+
 enum class TokenType {
     // Literals
     Number,
@@ -29,3 +31,4 @@ struct Token {
     TokenType type; 
     std::string lexeme;
 };
+const char* token_type_to_string(TokenType type);
